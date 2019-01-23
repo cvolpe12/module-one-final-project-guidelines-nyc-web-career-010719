@@ -4,9 +4,9 @@ end
 
 
 def menu
-  puts "What would you like to do? \n
-        1. search \n
-        2. watchlist \n"
+  puts "What would you like to do?
+        1. search
+        2. watchlist"
   menu_selection = gets.chomp
 
   if menu_selection == 1
@@ -24,10 +24,10 @@ def user_watchlist
 end
 
 def search_menu
-  puts "What do you want to search for? \n
-        1. movie \n
-        2. tv show \n
-        3. actor/director/writer/etc. \n"
+  puts "What do you want to search for?
+        1. movie
+        2. tv show
+        3. actor/director/writer/etc."
 
   menu_selection = gets.chomp
 
