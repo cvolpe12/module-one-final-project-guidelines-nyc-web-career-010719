@@ -9,9 +9,9 @@ def menu
         2. watchlist \n"
   menu_selection = get.chomp
 
-  if menu_selection = 1
+  if menu_selection == 1
     search_menu
-  elseif menu_selection = 2
+  elseif menu_selection == 2
     user_watchlist
   end
 end
@@ -31,11 +31,11 @@ def search_menu
 
   menu_selection = gets.chomp
 
-  if menu_selection = 1
+  if menu_selection == 1
     movie_search
-  elsif menu_selection = 2
+  elsif menu_selection == 2
     tv_search
-  elsif menu_selection = 3
+  elsif menu_selection == 3
     person_search
   end
 end
@@ -70,9 +70,9 @@ def anything_else
 
   user_input = gets.chomp
 
-  if user_input = 'y'
-    menu
-  elsif user_input = 'n'
+  if user_input == 'y'
+     menu
+  elsif user_input == 'n'
     goodbye
   end
 end
