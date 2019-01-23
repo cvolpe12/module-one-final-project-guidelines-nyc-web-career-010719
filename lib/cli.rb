@@ -50,8 +50,8 @@ end
 def movie_search
   puts "Enter the name of the movie you'd like to find: "
   name = gets.chomp
-  result = Movie.find_by_name(name) # We will write method (or something similar) in class file
-  puts result "\n \n"
+  movie_info = Movie.find_by_name(name)
+  puts movie_info
   anything_else
 end
 
