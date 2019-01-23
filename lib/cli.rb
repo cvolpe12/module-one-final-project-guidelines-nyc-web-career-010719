@@ -7,7 +7,7 @@ def menu
   puts "What would you like to do? \n
         1. search \n
         2. watchlist \n"
-  menu_selection = get.chomp
+  menu_selection = gets.chomp
 
   if menu_selection == 1
     search_menu
