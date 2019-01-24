@@ -10,11 +10,12 @@ class Movie < ActiveRecord::Base
     found_movie = movie_hash["results"].find do |movie|
       movie["title"] == name
     end
-    Movie.create(title:found_movie["title"], year_released:found_movie["release_date"], vote_average:found_movie["vote_average"], brief_description:found_movie["overview"][0..100] << "...")
-    puts found_movie["title"]
-    puts found_movie["release_date"]
-    puts found_movie["vote_average"]
-    puts found_movie["overview"][0..100] << "..."
+    found_movie
+    # Movie.create(title:found_movie["title"], year_released:found_movie["release_date"], vote_average:found_movie["vote_average"], brief_description:found_movie["overview"][0..100] << "...")
+    # puts found_movie["title"]
+    # puts found_movie["release_date"]
+    # puts found_movie["vote_average"]
+    # puts found_movie["overview"][0..100] << "..."
   end
 
   # def get_title(name)

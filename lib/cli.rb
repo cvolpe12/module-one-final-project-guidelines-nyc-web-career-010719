@@ -9,8 +9,6 @@ class Cli
     puts "What is your age"
     age = gets.chomp
     @user = User.create(name: user_name, age: age)
-    binding.pry
-    @user
   end
 
   def self.menu
@@ -20,7 +18,7 @@ class Cli
           3. Quit"
     menu_selection = gets.chomp
     if menu_selection == "1"
-      search_menu(user)
+      search_menu
     elsif menu_selection == "2"
       user_watchlist
     elsif menu_selection == "3"
@@ -50,7 +48,7 @@ class Cli
     menu_selection = gets.chomp
 
     if menu_selection == "1"
-      movie_search(user)
+      movie_search
     elsif menu_selection == "2"
       tv_search
     elsif menu_selection == "3"
@@ -67,7 +65,11 @@ class Cli
     puts "Enter the name of the movie you'd like to find: "
     name = gets.chomp
     movie_info = Movie.find_by_name(name)
-    puts movie_info
+    puts movie_info["title"]
+    puts movie_info["release_date"]
+    puts movie_info["vote_average"]
+    puts movie_info["overview"][0..100] << "..."
+    @movie = Movie.create(title: movie_info["title"], year_released: movie_info["release_date"], vote_average: movie_info["vote_average"], brief_description: movie_info["overview"][0..100] << "...")
     add_to_watchlist?
     anything_else
   end
@@ -88,15 +90,15 @@ class Cli
     anything_else
   end
 
-  # def add_to_watchlist?
-  #   puts "Would you like to add to your watchlist? (y/n)"
-  #   user_input = gets.chomp
-  #   if user_input == 'y'
-  #      Watchlist.create(user_id: @user, movie_id: , movie_title:)
-  #   elsif user_input == 'n'
-  #     puts "Okay."
-  #   end
-  # end
+  def self.add_to_watchlist?
+    puts "Would you like to add to your watchlist? (y/n)"
+    user_input = gets.chomp
+    if user_input == 'y'
+       Watchlist.create(user_id: @user.id, movie_id: @movie.id, movie_title: @movie.title)
+    elsif user_input == 'n'
+      puts "Okay."
+    end
+  end
 
   def self.anything_else
     puts "Would you like to do anything else? (y/n)"
