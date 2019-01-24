@@ -1,6 +1,6 @@
 require_relative '../config/environment'
 
-welcome
-user_instance
-menu
-goodbye
+Cli.welcome
+Cli.user_instance
+Cli.menu
+Cli.goodbye
