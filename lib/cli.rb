@@ -172,13 +172,13 @@ class Cli
   end
 
   def self.user_movies
-    binding.pry
-     user_name=User.find(user_name.id)
-     if user_name.watchlists == []
+    # binding.pry
+     @current_user = User.find(@current_user.id)
+     if @current_user.watchlists == []
        puts "You don't have any movies in your watchlist."
      else
        puts "Your Watchlist:"
-       movie = user_name.watchlists.map do |wl|
+       movie = @current_user.watchlists.map do |wl|
          wl.movie_title
        end
        puts movie
@@ -189,7 +189,7 @@ class Cli
     puts "Would you like to add to your watchlist? (y/n)"
     user_input = gets.chomp
     if user_input == 'y'
-       Watchlist.create(user_id: @user_name.id, movie_id: @movie.id, movie_title: @movie.title)
+       Watchlist.create(user_id: @current_user.id, movie_id: @movie.id, movie_title: @movie.title)
     elsif user_input == 'n'
       puts "Okay."
     end
