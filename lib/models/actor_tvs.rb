@@ -5,5 +5,4 @@ class CreateActorTvs < ActiveRecord::Migration[5.0]
         t.integer :actor_id
       end
   end
-
 end

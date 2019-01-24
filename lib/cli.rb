@@ -57,7 +57,7 @@ class Cli
     user_name = self.set_username
     password = self.set_password
     age = self.set_age
-    User.create(user_name: user_name, password: password, age: age)
+    @current_user = User.create(user_name: user_name, password: password, age: age)
   end
 
   def self.user_selection
@@ -71,7 +71,7 @@ class Cli
       user_name = gets.chomp
       puts "password: "
       password = gets.chomp
-      current_user = User.authenticate(user_name, password)
+      @current_user = User.authenticate(user_name, password)
       # binding.pry
     elsif input == "2"
       register
