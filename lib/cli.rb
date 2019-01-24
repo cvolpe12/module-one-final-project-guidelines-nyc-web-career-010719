@@ -2,6 +2,12 @@ def welcome
   puts "Welcome to [app name]! [Slogan/tag-line]"
 end
 
+def user_instance
+  puts "What is your name?"
+  user_name = gets.chomp
+  puts "What is your age"
+  age = gets.chomp
+end
 
 def menu
   puts "What would you like to do?
@@ -15,6 +21,9 @@ def menu
     user_watchlist
   elsif menu_selection == "3"
     thank_you
+  else
+    puts "Invalid Input. Please choose again"
+    menu
   end
 end
 
@@ -44,6 +53,9 @@ def search_menu
     person_search
   elsif menu_selection == "4"
     thank_you
+  else
+    puts "Invalid Input. Please choose again"
+    search_menu
   end
 end
 
