@@ -65,6 +65,7 @@ def movie_search
   name = gets.chomp
   movie_info = Movie.find_by_name(name)
   puts movie_info
+  # add_to_watchlist?
   anything_else
 end
 
@@ -84,6 +85,15 @@ def person_search
   anything_else
 end
 
+# def add_to_watchlist?
+#   puts "Would you like to add to your watchlist? (y/n)"
+#   user_input = gets.chomp
+#   if user_input == 'y'
+#      Watchlist.create(user_id: self, movie_id: , movie_title:)
+#   elsif user_input == 'n'
+#     thank_you
+#   end
+# end
 
 def anything_else
   puts "Would you like to do anything else? (y/n)"
@@ -94,6 +104,9 @@ def anything_else
      menu
   elsif user_input == 'n'
     thank_you
+  else
+    puts "Invalid Input. Please choose again"
+    anything_else
   end
 end
 
