@@ -71,7 +71,7 @@ class Cli
       user_name = gets.chomp
       puts "password: "
       password = gets.chomp
-      User.authenticate(user_name, password)
+      current_user = User.authenticate(user_name, password)
       binding.pry
     elsif input == "2"
       register

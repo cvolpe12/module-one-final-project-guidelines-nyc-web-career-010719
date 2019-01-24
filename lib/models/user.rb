@@ -1,3 +1,6 @@
+# require_relative '../../config/environment'
+# require 'pry'
+
 class User < ActiveRecord::Base
   has_many :watchlists
   has_many :movies, through: :watchlists
@@ -8,3 +11,5 @@ class User < ActiveRecord::Base
   end
 
 end
+# user = User.new()
+# binding.pry
