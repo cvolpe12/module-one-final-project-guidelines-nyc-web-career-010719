@@ -17,7 +17,7 @@ class Cli
   end
 
   def self.confirm(entry)
-    puts "You entered #{entry}. Is this correct? (y)"
+    puts "You entered #{entry}. Is this correct? (y/n)"
     is_correct_name = gets.chomp
     if is_correct_name == "n"
       set_username
@@ -72,7 +72,7 @@ class Cli
       puts "password: "
       password = gets.chomp
       current_user = User.authenticate(user_name, password)
-      binding.pry
+      # binding.pry
     elsif input == "2"
       register
     else
@@ -99,14 +99,25 @@ class Cli
   end
 
   #gets user's watchlist
-  def user_watchlist
+  def self.user_watchlist
     puts "What do you want to do with your watchlist?
           1. View
-          2. Add Movie
+          2. Add Movie/TV
           3. Search
           4. Quit"
-    watchlist = Watchlist.movies # We will write method (or something similar) in class file
-    puts watchlist #will create numbered list format format here or in class method
+    menu_selection = gets.chomp
+    if menu_selection == "1"
+      user_movies
+    elsif menu_selection == "2"
+      search_menu
+    elsif menu_selection == "3"
+     # search
+    elsif menu_selection == "4"
+     quit
+    else
+      invalid_selection
+      user_watchlist
+    end
     anything_else
   end
 
@@ -116,9 +127,7 @@ class Cli
           2. TV Show
           3. Actor/Director/Writer/etc.
           4. Quit"
-
     menu_selection = gets.chomp
-
     if menu_selection == "1"
       movie_search
     elsif menu_selection == "2"
@@ -162,18 +171,32 @@ class Cli
     anything_else
   end
 
+  def self.user_movies
+    binding.pry
+     user_name=User.find(user_name.id)
+     if user_name.watchlists == []
+       puts "You don't have any movies in your watchlist."
+     else
+       puts "Your Watchlist:"
+       movie = user_name.watchlists.map do |wl|
+         wl.movie_title
+       end
+       puts movie
+     end
+   end
+
   def self.add_to_watchlist?
-    puts "Would you like to add to your watchlist? (y)"
+    puts "Would you like to add to your watchlist? (y/n)"
     user_input = gets.chomp
     if user_input == 'y'
-       Watchlist.create(user_id: @user.id, movie_id: @movie.id, movie_title: @movie.title)
+       Watchlist.create(user_id: @user_name.id, movie_id: @movie.id, movie_title: @movie.title)
     elsif user_input == 'n'
       puts "Okay."
     end
   end
 
   def self.anything_else
-    puts "Would you like to do anything else? (y)"
+    puts "Would you like to do anything else? (y/n)"
 
     user_input = gets.chomp
 

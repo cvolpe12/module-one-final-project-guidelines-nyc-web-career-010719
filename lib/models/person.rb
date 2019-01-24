@@ -6,7 +6,7 @@ class Person < ActiveRecord::Base
     person_name = person_name.split(' ').join('+')
     response_string = RestClient.get("https://api.themoviedb.org/3/search/person?api_key=#{ENV['API_KEY']}&query=#{person_name}")
     response_hash = JSON.parse(response_string)
-    person_hash = response_hash["results"].find { |person| person["name"] == person_name }
+    person_hash = response_hash["results"].find { |person| person["name"].downcase == person_name.downcase }
   end
 
   def self.films(films)

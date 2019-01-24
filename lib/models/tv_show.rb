@@ -8,9 +8,9 @@ class TvShow < ActiveRecord::Base
     response_string = RestClient.get("https://api.thetvdb.org/3/search/tv?api_key=#{ENV['API_KEY']}&query=#{name}")
     tv_hash = JSON.parse(response_string)
     found_tv = tv_hash["results"].find do |tv|
-      tv["title"] == name
+      tv["title"].downcase == name.downcase
     end
     found_tv
   end
-  
+
 end #end of class
