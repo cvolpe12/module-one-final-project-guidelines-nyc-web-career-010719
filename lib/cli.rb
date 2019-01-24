@@ -57,7 +57,7 @@ class Cli
     user_name = self.set_username
     password = self.set_password
     age = self.set_age
-    User.create(user_name: user_name, password: password, age: age)
+    @current_user = User.create(user_name: user_name, password: password, age: age)
   end
 
   def self.user_selection
@@ -71,7 +71,7 @@ class Cli
       user_name = gets.chomp
       puts "password: "
       password = gets.chomp
-      current_user = User.authenticate(user_name, password)
+      @current_user = User.authenticate(user_name, password)
       # binding.pry
     elsif input == "2"
       register
@@ -172,13 +172,13 @@ class Cli
   end
 
   def self.user_movies
-    binding.pry
-     user_name=User.find(user_name.id)
-     if user_name.watchlists == []
+    # binding.pry
+     @current_user = User.find(@current_user.id)
+     if @current_user.watchlists == []
        puts "You don't have any movies in your watchlist."
      else
        puts "Your Watchlist:"
-       movie = user_name.watchlists.map do |wl|
+       movie = @current_user.watchlists.map do |wl|
          wl.movie_title
        end
        puts movie
@@ -189,7 +189,7 @@ class Cli
     puts "Would you like to add to your watchlist? (y/n)"
     user_input = gets.chomp
     if user_input == 'y'
-       Watchlist.create(user_id: @user_name.id, movie_id: @movie.id, movie_title: @movie.title)
+       Watchlist.create(user_id: @current_user.id, movie_id: @movie.id, movie_title: @movie.title)
     elsif user_input == 'n'
       puts "Okay."
     end
