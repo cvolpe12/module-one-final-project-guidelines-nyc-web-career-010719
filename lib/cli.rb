@@ -16,6 +16,18 @@ class Cli
     puts "Thank you!"
   end
 
+  def self.confirm(entry)
+    puts "You entered #{entry}. Is this correct? (y/n)"
+    is_correct_name = gets.chomp
+    if is_correct_name == "n"
+      set_username
+    elsif is_correct_name == "y"
+    else
+      invalid_y_or_n
+      confirm(entry)
+    end
+  end
+
   def self.goodbye
     puts "See you later!"
   end
@@ -23,44 +35,21 @@ class Cli
   def self.set_username
     puts "What would you like your user name to be?"
     user_name = gets.chomp
-    puts "You entered #{user_name}. Is this correct? (y/n)"
-    is_correct_name = gets.chomp
-    if is_correct_name == "n"
-      set_username
-    elsif is_correct_name == "y"
-    else
-      invalid_y_or_n
-      set_username
-    end
+    confirm(user_name)
     user_name
   end
 
   def self.set_password
     puts "Please set a password that you will remember: "
     password = gets.chomp
-    puts "You entered #{password}. Is this correct? (y/n)"
-    is_correct_password = gets.chomp
-    if is_correct_password == "n"
-      set_password
-    elsif is_correct_password == "y"
-    else
-      invalid_y_or_n
-    end
+    confirm(password)
     password
   end
 
-  def set_age
+  def self.set_age
     puts "How old are you?"
     age = gets.chomp.to_i
-    puts "You entered #{age.to_s}. Is this correct? (y/n)"
-    is_correct_age = gets.chomp
-      if is_correct_age == "n"
-        set_age
-      elsif is_correct_age == "y"
-      else
-        invalid_y_or_n
-        set_age
-      end
+    confirm(age)
     age
   end
 
