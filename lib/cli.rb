@@ -33,6 +33,11 @@ class Cli
 
   #gets user's watchlist
   def user_watchlist
+    puts "What do you want to do with your watchlist?
+          1. View 
+          2. Add Movie
+          3. Search
+          4. Quit"
     watchlist = Watchlist.movies # We will write method (or something similar) in class file
     puts watchlist #will create numbered list format format here or in class method
     anything_else
