@@ -7,6 +7,7 @@ def user_instance
   user_name = gets.chomp
   puts "What is your age"
   age = gets.chomp
+  user = User.create(name: user_name, age: age)
 end
 
 def menu
