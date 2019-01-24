@@ -3,12 +3,92 @@ class Cli
     puts "Welcome to [app name]! [Slogan/tag-line]"
   end
 
-  def self.user_instance
-    puts "What is your name?"
+
+  def self.invalid_selection
+    puts "The input you gave is invalid. Please enter a number."
+  end
+
+  def self.invalid_y_or_n
+    puts "The input you gave is invalid. Please enter 'y' for yes or 'n' for no."
+  end
+
+  def self.quit
+    puts "Thank you!"
+  end
+
+  def self.goodbye
+    puts "See you later!"
+  end
+
+  def self.set_username
+    puts "What would you like your user name to be?"
     user_name = gets.chomp
-    puts "What is your age"
-    age = gets.chomp
-    @user = User.create(name: user_name, age: age)
+    puts "You entered #{user_name}. Is this correct? (y/n)"
+    is_correct_name = gets.chomp
+    if is_correct_name == "n"
+      set_username
+    elsif is_correct_name == "y"
+    else
+      invalid_y_or_n
+      set_username
+    end
+    user_name
+  end
+
+  def self.set_password
+    puts "Please set a password that you will remember: "
+    password = gets.chomp
+    puts "You entered #{password}. Is this correct? (y/n)"
+    is_correct_password = gets.chomp
+    if is_correct_password == "n"
+      set_password
+    elsif is_correct_password == "y"
+    else
+      invalid_y_or_n
+    end
+    password
+  end
+
+  def set_age
+    puts "How old are you?"
+    age = gets.chomp.to_i
+    puts "You entered #{age.to_s}. Is this correct? (y/n)"
+    is_correct_age = gets.chomp
+      if is_correct_age == "n"
+        set_age
+      elsif is_correct_age == "y"
+      else
+        invalid_y_or_n
+        set_age
+      end
+    age
+  end
+
+  def self.register
+    user_name = self.set_username
+    password = self.set_password
+    age = self.set_age
+    User.create(user_name: user_name, password: password, age: age)
+  end
+
+  def self.user_selection
+    puts "Would you like to:
+          1. Login
+          2. Register
+          3. Quit"
+    input = gets.chomp
+    if input == "1"
+      puts "User name: "
+      user_name = gets.chomp
+      puts "password: "
+      password = gets.chomp
+      User.authenticate(user_name, password)
+      binding.pry
+    elsif input == "2"
+      register
+    else
+      quit
+    end
   end
 
   def self.menu
@@ -22,19 +102,17 @@ class Cli
     elsif menu_selection == "2"
       user_watchlist
     elsif menu_selection == "3"
-      thank_you
+      quit
     else
-      puts "Invalid Input. Please choose again"
+      invalid_selection
       menu
     end
   end
 
-
-
   #gets user's watchlist
   def user_watchlist
     puts "What do you want to do with your watchlist?
-          1. View 
+          1. View
           2. Add Movie
           3. Search
           4. Quit"
@@ -46,7 +124,7 @@ class Cli
   def self.search_menu
     puts "What do you want to search for?
           1. Movie
-          2. Tv Show
+          2. TV Show
           3. Actor/Director/Writer/etc.
           4. Quit"
 
@@ -59,9 +137,9 @@ class Cli
     elsif menu_selection == "3"
       person_search
     elsif menu_selection == "4"
-      thank_you
+      quit
     else
-      puts "Invalid Input. Please choose again"
+      invalid_selection
       search_menu
     end
   end
@@ -113,19 +191,11 @@ class Cli
     if user_input == 'y'
        menu
     elsif user_input == 'n'
-      thank_you
+      quit
     else
-      puts "Invalid Input. Please choose again"
+      invalid_y_or_n
       anything_else
     end
   end
 
-
-  def self.thank_you
-    puts "Thank you!"
-  end
-
-  def self.goodbye
-    puts "See you later!"
-  end
 end #end of class
