@@ -29,24 +29,10 @@ class Cli
     end
   end
 
-
-
-  #gets user's watchlist
-  def user_watchlist
-    puts "What do you want to do with your watchlist?
-          1. View 
-          2. Add Movie
-          3. Search
-          4. Quit"
-    watchlist = Watchlist.movies # We will write method (or something similar) in class file
-    puts watchlist #will create numbered list format format here or in class method
-    anything_else
-  end
-
   def self.search_menu
     puts "What do you want to search for?
           1. Movie
-          2. Tv Show
+          2. TV Show
           3. Actor/Director/Writer/etc.
           4. Quit"
 
@@ -66,9 +52,35 @@ class Cli
     end
   end
 
+  #gets user's watchlist
+  def self.user_watchlist
+    puts "What do you want to do with your watchlist?
+          1. View
+          2. Add Movie
+          3. Search
+          4. Quit"
+    menu_selection = gets.chomp
+    if menu_selection == "1"
+      user_movies
+    elsif menu_selection == "2"
+      # user_watchlist
+    elsif menu_selection == "3"
+      # thank_you
+    elsif menu_selection == "4"
+      thank_you
+    else
+      puts "Invalid Input. Please choose again"
+      user_watchlist
+    end
+    # watchlist = Watchlist.movies # We will write method (or something similar) in class file
+    # puts watchlist #will create numbered list format format here or in class method
+    anything_else
+  end
+
   def self.movie_search
     puts "Enter the name of the movie you'd like to find: "
     name = gets.chomp
+    # Movie.exist?(name)
     movie_info = Movie.find_by_name(name)
     puts movie_info["title"]
     puts movie_info["release_date"]
@@ -120,6 +132,18 @@ class Cli
     end
   end
 
+  def self.user_movies
+    @user=User.find(@user.id)
+    if @user.watchlists == []
+      puts "You don't have any movies in your watchlist."
+    else
+      puts "Your Watchlist:"
+      movie = @user.watchlists.map do |wl|
+        wl.movie_title
+      end
+      puts movie
+    end
+  end
 
   def self.thank_you
     puts "Thank you!"
