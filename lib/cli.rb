@@ -17,7 +17,7 @@ class Cli
   end
 
   def self.confirm(entry)
-    puts "You entered #{entry}. Is this correct? (y/n)"
+    puts "You entered #{entry}. Is this correct? (y)"
     is_correct_name = gets.chomp
     if is_correct_name == "n"
       set_username
@@ -149,8 +149,8 @@ class Cli
   def self.tv_search
     puts "Enter the name of the show you'd like to find: "
     name = gets.chomp
-    result = TV.find_by_name(name) # We will write method (or something similar) in class file
-    puts result "\n \n"
+    result = TvShow.find_by_name(name) # We will write method (or something similar) in class file
+    puts result
     anything_else
   end
 
@@ -158,12 +158,12 @@ class Cli
     puts "Enter the name of the person you'd like to find: "
     name = gets.chomp
     result = Person.find_by_name(name) # We will write method (or something similar) in class file
-    puts result "\n \n"
+    puts result
     anything_else
   end
 
   def self.add_to_watchlist?
-    puts "Would you like to add to your watchlist? (y/n)"
+    puts "Would you like to add to your watchlist? (y)"
     user_input = gets.chomp
     if user_input == 'y'
        Watchlist.create(user_id: @user.id, movie_id: @movie.id, movie_title: @movie.title)
@@ -173,7 +173,7 @@ class Cli
   end
 
   def self.anything_else
-    puts "Would you like to do anything else? (y/n)"
+    puts "Would you like to do anything else? (y)"
 
     user_input = gets.chomp
 
