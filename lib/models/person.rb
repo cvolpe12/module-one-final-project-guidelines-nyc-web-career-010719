@@ -3,11 +3,14 @@ class Person < ActiveRecord::Base
   has_many :movies, through: :actor_movies
 
   def self.find_by_name(person_name)
-    person_name = person_name.split(' ').join('+')
     response_string = RestClient.get("https://api.themoviedb.org/3/search/person?api_key=#{ENV['API_KEY']}&query=#{person_name}")
     response_hash = JSON.parse(response_string)
-    person_hash = response_hash["results"].find { |person| person["name"].downcase == person_name.downcase }
-    person_hash
+    person_hash = response_hash["results"].find do |person|
+      person["name"].downcase == person_name.downcase
+    end
+    # binding.pry
+    puts person_hash["name"] <<":"
+    puts person_hash["known_for"].map {|movie| movie["title"]}
   end
 
   def self.films(films)
