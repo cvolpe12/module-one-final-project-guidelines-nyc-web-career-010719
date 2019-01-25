@@ -103,15 +103,16 @@ class Cli
     puts "What do you want to do with your watchlist?
           1. View
           2. Add Movie/TV
-          3. Quit"
+          3. Remove Movie/TV
+          4. Quit"
     menu_selection = gets.chomp
     if menu_selection == "1"
       user_movies
     elsif menu_selection == "2"
       search_menu
-    # elsif menu_selection == "3"
-    #  # search
     elsif menu_selection == "3"
+     remove_show
+   elsif menu_selection == "4"
      quit
     else
       invalid_selection
@@ -163,7 +164,6 @@ class Cli
     puts tv_info["vote_average"]
     puts tv_info["overview"][0..100] << "..."
     @tv = TvShow.create(title: tv_info["name"], year_released: tv_info["first_air_date"], vote_average: tv_info["vote_average"], brief_description: tv_info["overview"][0..100] << "...")
-    binding.pry
     add_to_tv_watchlist?
     anything_else
   end
@@ -180,19 +180,19 @@ class Cli
     # binding.pry
      @current_user = User.find(@current_user.id)
      if @current_user.watchlists == []
-       puts "You don't have any movies in your watchlist."
+       puts "Your watchlist is empty."
      else
        puts "Your Watchlist:"
-       ent = []
+       @ent = []
        movie = @current_user.watchlists.map do |wl|
          # binding.pry
          if wl.movie_title != nil
-           ent << wl.movie_title
+           @ent << wl.movie_title
         elsif wl.tv_show_title != nil
-          ent << wl.tv_show_title
+          @ent << wl.tv_show_title
         end
        end
-       watchlist_titles(ent)
+       watchlist_titles(@ent)
      end
    end
 
@@ -217,6 +217,22 @@ class Cli
        Watchlist.create(user_id: @current_user.id, movie_id: nil, movie_title: nil, tv_id: @tv.id, tv_show_title: @tv.title)
     elsif user_input == 'n'
       puts "Okay."
+    end
+  end
+
+  def self.remove_show
+    puts "What would you like to remove:
+          1. Movie
+          2. TV Show"
+    menu_selection = gets.chomp
+    if menu_selection == "1"
+      puts "What is the name of the movie?"
+      title = gets.chomp
+      @current_user.watchlists.where(movie_title: title).destroy_all
+    elsif menu_selection == "2"
+      puts "What is the name of the tv?"
+      title = gets.chomp
+      @current_user.watchlists.where(tv_show_title: title).destroy_all
     end
   end
 
