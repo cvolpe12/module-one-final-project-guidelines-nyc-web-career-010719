@@ -144,13 +144,8 @@ class Cli
     puts "Enter the name of the movie you'd like to find: "
     name = gets.chomp
     movie_info = Movie.find_by_name(name)
-    # puts movie_info["title"]
-    # puts movie_info["release_date"]
-    # puts movie_info["vote_average"]
-    # puts movie_info["overview"][0..100] << "..."
     Movie.movie_info
-    @movie = Movie.movie_instance#Movie.create(title: movie_info["title"], year_released: movie_info["release_date"], vote_average: movie_info["vote_average"], brief_description: movie_info["overview"][0..100] << "...")
-    binding.pry
+    @movie = Movie.movie_instance
     add_to_movie_watchlist
     anything_else
   end
@@ -159,11 +154,8 @@ class Cli
     puts "Enter the name of the show you'd like to find: "
     name = gets.chomp
     tv_info = TvShow.find_by_name(name)
-    puts tv_info["name"]
-    puts tv_info["first_air_date"]
-    puts tv_info["vote_average"]
-    puts tv_info["overview"][0..100] << "..."
-    @tv = TvShow.create(title: tv_info["name"], year_released: tv_info["first_air_date"], vote_average: tv_info["vote_average"], brief_description: tv_info["overview"][0..100] << "...")
+    TvShow.tv_info
+    @tv = TvShow.tv_instance
     add_to_tv_watchlist
     anything_else
   end
