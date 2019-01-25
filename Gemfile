@@ -7,3 +7,5 @@ gem "pry"
 gem "require_all"
 gem "dotenv"
 gem "rest-client"
+gem 'tty-font'
+gem 'pastel'

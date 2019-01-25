@@ -1,6 +1,10 @@
 class Cli
   def self.welcome
-    puts "Welcome to [app name]! [Slogan/tag-line]"
+    app = TTY::Font.new(:doom)
+    # puts app.write("Watch It!")
+    pastel = Pastel.new
+    puts pastel.bright_cyan(app.write("Watch It!"))
+    puts "Welcome to Watch It. Recommendations from you, for you!"
   end
 
 
