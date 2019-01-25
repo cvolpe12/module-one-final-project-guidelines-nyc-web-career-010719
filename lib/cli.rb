@@ -1,27 +1,27 @@
 class Cli
+  @app = TTY::Font.new(:doom)
+  @pastel = Pastel.new
+
   def self.welcome
-    app = TTY::Font.new(:doom)
-    # puts app.write("Watch It!")
-    pastel = Pastel.new
-    puts pastel.bright_cyan(app.write("Watch It!"))
-    puts "Welcome to Watch It. Recommendations from you, for you!"
+    puts @pastel.bright_yellow(@app.write("Watch It!"))
+    puts @pastel.bright_cyan.on_bright_blue("Welcome to Watch It. Recommendations from you, for you!")
   end
 
 
   def self.invalid_selection
-    puts "The input you gave is invalid. Please enter a number."
+    puts @pastel.bright_red("The input you gave is invalid. Please enter a number.")
   end
 
   def self.invalid_y_or_n
-    puts "The input you gave is invalid. Please enter 'y' for yes or 'n' for no."
+    puts @pastel.bright_red("The input you gave is invalid. Please enter 'y' for yes or 'n' for no.")
   end
 
   def self.quit
-    puts "Thank you!"
+    puts @pastel.bright_cyan.on_bright_blue("Thank you!")
   end
 
   def self.confirm(entry)
-    puts "You entered #{entry}. Is this correct? (y/n)"
+    puts @pastel.bright_cyan.on_bright_blue("You entered") + @pastel.bright_red.on_bright_blue("#{entry}") + @pastel.bright_cyan.on_bright_blue(". Is this correct?") + @pastel.bright_magenta.on_bright_blue("(y/n)")
     is_correct_name = gets.chomp
     if is_correct_name == "n"
       set_username
@@ -33,25 +33,25 @@ class Cli
   end
 
   def self.goodbye
-    puts "See you later!"
+    puts @pastel.bright_cyan.on_bright_blue("See you later!")
   end
 
   def self.set_username
-    puts "What would you like your user name to be?"
+    puts @pastel.bright_cyan.on_bright_blue("What would you like your user name to be?")
     user_name = gets.chomp
     confirm(user_name)
     user_name
   end
 
   def self.set_password
-    puts "Please set a password that you will remember: "
+    puts @pastel.bright_cyan.on_bright_blue("Please set a password that you will remember: ")
     password = gets.chomp
     confirm(password)
     password
   end
 
   def self.set_age
-    puts "How old are you?"
+    puts @pastel.bright_cyan.on_bright_blue("How old are you?")
     age = gets.chomp.to_i
     confirm(age)
     age
@@ -65,15 +65,15 @@ class Cli
   end
 
   def self.user_selection
-    puts "Would you like to:
+    puts @pastel.bright_cyan.on_bright_blue("Would you like to:
           1. Login
           2. Register
-          3. Quit"
+          3. Quit")
     input = gets.chomp
     if input == "1"
-      puts "User name: "
+      puts @pastel.bright_cyan.on_bright_blue("User name: ")
       user_name = gets.chomp
-      puts "password: "
+      puts @pastel.bright_cyan.on_bright_blue("password: ")
       password = gets.chomp
       @current_user = User.authenticate(user_name, password)
     elsif input == "2"
@@ -84,10 +84,10 @@ class Cli
   end
 
   def self.menu
-    puts "What would you like to do?
+    puts @pastel.bright_cyan.on_bright_blue("What would you like to do?
           1. Search
           2. Watchlist
-          3. Quit"
+          3. Quit")
     menu_selection = gets.chomp
     if menu_selection == "1"
       search_menu
@@ -102,17 +102,17 @@ class Cli
   end
 
   def self.user_watchlist
-    puts "What do you want to do with your watchlist?
+    puts @pastel.bright_cyan.on_bright_blue("What do you want to do with your watchlist?
           1. View
           2. Add Movie/TV Show
           3. Remove Movie/TV Show
-          4. Quit"
+          4. Quit")
     menu_selection = gets.chomp
     if menu_selection == "1"
       user_movies
     elsif menu_selection == "2"
       search_menu
-    elsif menu_selection == "3"
+    elsif menu_selection == "3" 
      remove_show
    elsif menu_selection == "4"
      quit
@@ -124,11 +124,11 @@ class Cli
   end
 
   def self.search_menu
-    puts "What do you want to search for?
+    puts @pastel.bright_cyan.on_bright_blue("What do you want to search for?
           1. Movie
           2. TV Show
           3. Actor/Director/Writer/etc.
-          4. Quit"
+          4. Quit")
     menu_selection = gets.chomp
     if menu_selection == "1"
       movie_search
@@ -145,7 +145,7 @@ class Cli
   end
 
   def self.movie_search
-    puts "Enter the name of the movie you'd like to find: "
+    puts @pastel.bright_cyan.on_bright_blue("Enter the name of the movie you'd like to find: ")
     name = gets.chomp
     movie_info = Movie.find_by_name(name)
     Movie.movie_info
@@ -155,7 +155,7 @@ class Cli
   end
 
   def self.tv_search
-    puts "Enter the name of the show you'd like to find: "
+    puts @pastel.bright_cyan.on_bright_blue("Enter the name of the show you'd like to find: ")
     name = gets.chomp
     tv_info = TvShow.find_by_name(name)
     TvShow.tv_info
@@ -165,7 +165,7 @@ class Cli
   end
 
   def self.person_search
-    puts "Enter the name of the person you'd like to find: "
+    puts @pastel.bright_cyan.on_bright_blue("Enter the name of the person you'd like to find: ")
     name = gets.chomp
     result = Person.find_by_name(name)
     puts result
@@ -175,9 +175,9 @@ class Cli
   def self.user_movies
      @current_user = User.find(@current_user.id)
      if @current_user.watchlists == []
-       puts "Your watchlist is empty."
+       puts @pastel.bright_cyan.on_bright_blue("Your watchlist is empty.")
      else
-       puts "Your Watchlist:"
+       puts @pastel.bright_cyan.on_bright_blue("Your") + @pastel.bright_yellow.on_bright_blue("Watch It: ")
        @ent = []
        movie = @current_user.watchlists.map do |wl|
          if wl.movie_title != nil
@@ -203,16 +203,16 @@ class Cli
   end
 
   def self.remove_show
-    puts "What would you like to remove:
+    puts @pastel.bright_cyan.on_bright_blue("What would you like to remove:
           1. Movie
-          2. TV Show"
+          2. TV Show")
     menu_selection = gets.chomp
     if menu_selection == "1"
-      puts "What is the name of the movie?"
+      puts @pastel.bright_cyan.on_bright_blue("What is the name of the movie?")
       title = gets.chomp
       @current_user.watchlists.where(movie_title: title).destroy_all
     elsif menu_selection == "2"
-      puts "What is the name of the tv?"
+      puts @pastel.bright_cyan.on_bright_blue("What is the name of the tv?")
       title = gets.chomp
       @current_user.watchlists.where(tv_show_title: title).destroy_all
     else
@@ -221,7 +221,7 @@ class Cli
   end
 
   def self.anything_else
-    puts "Would you like to do anything else? (y/n)"
+    puts @pastel.bright_cyan.on_bright_blue("Would you like to do anything else? (y/n)")
     user_input = gets.chomp
     if user_input == 'y'
        menu
