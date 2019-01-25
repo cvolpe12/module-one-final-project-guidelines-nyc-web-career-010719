@@ -103,16 +103,15 @@ class Cli
     puts "What do you want to do with your watchlist?
           1. View
           2. Add Movie/TV
-          3. Search
-          4. Quit"
+          3. Quit"
     menu_selection = gets.chomp
     if menu_selection == "1"
       user_movies
     elsif menu_selection == "2"
       search_menu
+    # elsif menu_selection == "3"
+    #  # search
     elsif menu_selection == "3"
-     # search
-    elsif menu_selection == "4"
      quit
     else
       invalid_selection
@@ -151,15 +150,21 @@ class Cli
     puts movie_info["vote_average"]
     puts movie_info["overview"][0..100] << "..."
     @movie = Movie.create(title: movie_info["title"], year_released: movie_info["release_date"], vote_average: movie_info["vote_average"], brief_description: movie_info["overview"][0..100] << "...")
-    add_to_watchlist?
+    add_to_movie_watchlist?
     anything_else
   end
 
   def self.tv_search
     puts "Enter the name of the show you'd like to find: "
     name = gets.chomp
-    result = TvShow.find_by_name(name) # We will write method (or something similar) in class file
-    puts result
+    tv_info = TvShow.find_by_name(name) # We will write method (or something similar) in class file
+    puts tv_info["name"]
+    puts tv_info["first_air_date"]
+    puts tv_info["vote_average"]
+    puts tv_info["overview"][0..100] << "..."
+    @tv = TvShow.create(title: tv_info["name"], year_released: tv_info["first_air_date"], vote_average: tv_info["vote_average"], brief_description: tv_info["overview"][0..100] << "...")
+    binding.pry
+    add_to_tv_watchlist?
     anything_else
   end
 
@@ -178,18 +183,38 @@ class Cli
        puts "You don't have any movies in your watchlist."
      else
        puts "Your Watchlist:"
+       ent = []
        movie = @current_user.watchlists.map do |wl|
-         wl.movie_title
+         # binding.pry
+         if wl.movie_title != nil
+           ent << wl.movie_title
+        elsif wl.tv_show_title != nil
+          ent << wl.tv_show_title
+        end
        end
-       puts movie
+       watchlist_titles(ent)
      end
    end
 
-  def self.add_to_watchlist?
+   def self.watchlist_titles(array)
+     array.each {|arr| puts arr}
+   end
+
+  def self.add_to_movie_watchlist?
     puts "Would you like to add to your watchlist? (y/n)"
     user_input = gets.chomp
     if user_input == 'y'
-       Watchlist.create(user_id: @current_user.id, movie_id: @movie.id, movie_title: @movie.title)
+       Watchlist.create(user_id: @current_user.id, movie_id: @movie.id, movie_title: @movie.title, tv_id: nil, tv_show_title: nil)
+    elsif user_input == 'n'
+      puts "Okay."
+    end
+  end
+
+  def self.add_to_tv_watchlist?
+    puts "Would you like to add to your watchlist? (y/n)"
+    user_input = gets.chomp
+    if user_input == 'y'
+       Watchlist.create(user_id: @current_user.id, movie_id: nil, movie_title: nil, tv_id: @tv.id, tv_show_title: @tv.title)
     elsif user_input == 'n'
       puts "Okay."
     end

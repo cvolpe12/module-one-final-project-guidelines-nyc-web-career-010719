@@ -13,5 +13,4 @@ class Movie < ActiveRecord::Base
     found_movie
   end
 
-
 end
