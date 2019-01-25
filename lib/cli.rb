@@ -1,6 +1,6 @@
 class Cli
   def self.welcome
-    puts "Welcome to [app name]! [Slogan/tag-line]"
+    puts "Welcome to Watch It! Recommendations from yourself, for yourself."
   end
 
 
@@ -102,7 +102,7 @@ class Cli
   def self.user_watchlist
     puts "What do you want to do with your watchlist?
           1. View
-          2. Add Movie/TV
+          2. Add Movie/TV Show
           3. Quit"
     menu_selection = gets.chomp
     if menu_selection == "1"

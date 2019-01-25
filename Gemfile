@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+#frozen_string_literal: true
 source "https://rubygems.org"
 
 gem "sinatra-activerecord"
@@ -7,3 +7,6 @@ gem "pry"
 gem "require_all"
 gem "dotenv"
 gem "rest-client"
+gem 'tty-color'
+gem 'tty-spinner'
+gem 'pastel'
