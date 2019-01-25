@@ -72,7 +72,6 @@ class Cli
       puts "password: "
       password = gets.chomp
       @current_user = User.authenticate(user_name, password)
-      # binding.pry
     elsif input == "2"
       register
     else
@@ -98,7 +97,6 @@ class Cli
     end
   end
 
-  #gets user's watchlist
   def self.user_watchlist
     puts "What do you want to do with your watchlist?
           1. View
@@ -146,38 +144,39 @@ class Cli
     puts "Enter the name of the movie you'd like to find: "
     name = gets.chomp
     movie_info = Movie.find_by_name(name)
-    puts movie_info["title"]
-    puts movie_info["release_date"]
-    puts movie_info["vote_average"]
-    puts movie_info["overview"][0..100] << "..."
-    @movie = Movie.create(title: movie_info["title"], year_released: movie_info["release_date"], vote_average: movie_info["vote_average"], brief_description: movie_info["overview"][0..100] << "...")
-    add_to_movie_watchlist?
+    # puts movie_info["title"]
+    # puts movie_info["release_date"]
+    # puts movie_info["vote_average"]
+    # puts movie_info["overview"][0..100] << "..."
+    Movie.movie_info
+    @movie = Movie.movie_instance#Movie.create(title: movie_info["title"], year_released: movie_info["release_date"], vote_average: movie_info["vote_average"], brief_description: movie_info["overview"][0..100] << "...")
+    binding.pry
+    add_to_movie_watchlist
     anything_else
   end
 
   def self.tv_search
     puts "Enter the name of the show you'd like to find: "
     name = gets.chomp
-    tv_info = TvShow.find_by_name(name) # We will write method (or something similar) in class file
+    tv_info = TvShow.find_by_name(name)
     puts tv_info["name"]
     puts tv_info["first_air_date"]
     puts tv_info["vote_average"]
     puts tv_info["overview"][0..100] << "..."
     @tv = TvShow.create(title: tv_info["name"], year_released: tv_info["first_air_date"], vote_average: tv_info["vote_average"], brief_description: tv_info["overview"][0..100] << "...")
-    add_to_tv_watchlist?
+    add_to_tv_watchlist
     anything_else
   end
 
   def self.person_search
     puts "Enter the name of the person you'd like to find: "
     name = gets.chomp
-    result = Person.find_by_name(name) # We will write method (or something similar) in class file
+    result = Person.find_by_name(name)
     puts result
     anything_else
   end
 
   def self.user_movies
-    # binding.pry
      @current_user = User.find(@current_user.id)
      if @current_user.watchlists == []
        puts "Your watchlist is empty."
@@ -185,7 +184,6 @@ class Cli
        puts "Your Watchlist:"
        @ent = []
        movie = @current_user.watchlists.map do |wl|
-         # binding.pry
          if wl.movie_title != nil
            @ent << wl.movie_title
         elsif wl.tv_show_title != nil
@@ -200,24 +198,12 @@ class Cli
      array.each {|arr| puts arr}
    end
 
-  def self.add_to_movie_watchlist?
-    puts "Would you like to add to your watchlist? (y/n)"
-    user_input = gets.chomp
-    if user_input == 'y'
-       Watchlist.create(user_id: @current_user.id, movie_id: @movie.id, movie_title: @movie.title, tv_id: nil, tv_show_title: nil)
-    elsif user_input == 'n'
-      puts "Okay."
-    end
+  def self.add_to_movie_watchlist
+    Watchlist.user_watchlist(@current_user.id, @movie.id, @movie.title)
   end
 
-  def self.add_to_tv_watchlist?
-    puts "Would you like to add to your watchlist? (y/n)"
-    user_input = gets.chomp
-    if user_input == 'y'
-       Watchlist.create(user_id: @current_user.id, movie_id: nil, movie_title: nil, tv_id: @tv.id, tv_show_title: @tv.title)
-    elsif user_input == 'n'
-      puts "Okay."
-    end
+  def self.add_to_tv_watchlist
+    Watchlist.user_watchlist(@current_user.id, nil, nil, @tv.id, @tv.title)
   end
 
   def self.remove_show
@@ -233,14 +219,14 @@ class Cli
       puts "What is the name of the tv?"
       title = gets.chomp
       @current_user.watchlists.where(tv_show_title: title).destroy_all
+    else
+      invalid_selection
     end
   end
 
   def self.anything_else
     puts "Would you like to do anything else? (y/n)"
-
     user_input = gets.chomp
-
     if user_input == 'y'
        menu
     elsif user_input == 'n'

@@ -8,7 +8,6 @@ class Person < ActiveRecord::Base
     person_hash = response_hash["results"].find do |person|
       person["name"].downcase == person_name.downcase
     end
-    # binding.pry
     puts person_hash["name"] <<":"
     puts person_hash["known_for"].map {|movie| movie["title"]}
   end
