@@ -104,8 +104,8 @@ class Cli
   def self.user_watchlist
     puts "What do you want to do with your watchlist?
           1. View
-          2. Add Movie/TV
-          3. Remove Movie/TV
+          2. Add Movie/TV Show
+          3. Remove Movie/TV Show
           4. Quit"
     menu_selection = gets.chomp
     if menu_selection == "1"
